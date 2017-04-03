@@ -24,4 +24,4 @@ Fecha – Cantidad Horas Invertidas - Tarea - Estudiante
 ## Conclusiones
 ## Bibliografía
 
-- Markdown Cheatsheet. (2016,Febrero 26). Obtenido de https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet .
+- Markdown Cheatsheet. (2016, Febrero 26). Obtenido de https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet .
