@@ -106,6 +106,7 @@ Se desglosan en el formato:
 Fecha – Cantidad Horas Invertidas - Tarea - Estudiante
 
 - `2 Abril - 1 hora - Creación del Git, inicio del README.md - Gustavo`. 
+- `11 Abril - 2 hora - Creación del diseño MySql - Gustavo`. 
 
 ## Comentarios finales (estado del programa)
 ## Conclusiones
