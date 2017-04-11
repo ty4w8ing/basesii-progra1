@@ -58,6 +58,65 @@ En esta tabla se encuentran los datos de una transfusión de sangre, efectuada e
 
 ### MongoDB
 
+Usando *MongoDB* almacenaremos los mensajes que se transmitirán a la población en general, esto ya sea vía *Telegram* o *Twitter*. Debido a que *MongoDB* almacena colecciones en formato *JSON*, se crearán 2 colecciones, una para los mensajes y la otra para manejar los traslados de stock entre las sedes u hospitales.
+
+#### Creación de la DB
+
+Utilizamos los siguientes comandos para crear la base de satos y las collecciones:
+
+<pre class="prettyprint notranslate">
+&gt; db.dropDatabase()
+{ "ok" : 1 }
+&gt; use basesii
+switched to db basesii
+&gt; db.createCollection("mensajes")
+{ "ok" : 1 }
+&gt; db.createCollection("traslados")
+{ "ok" : 1 }
+&gt;
+</pre>
+
+#### Colección *Mensajes*
+
+En esta collección almacenaremos el *JSON* de los mensajes de la siguiente forma:
+
+<pre class="prettyprint notranslate">
+{
+	medio: "Telegram",
+	receptor: ["@Tavog14","@kmoragas","@quamtics"],
+	mensaje: "Buenos dias, se le comunica que el Hospital de Alajuela ocupa recervas de sangre tipo A+, acerquese a donar y ayudenos a salvar vidas",
+	fecha: new Date(2017,04,11,16,05)
+}
+</pre>
+
+A continuación se muentran los datos y su respectiva información:
+
+- Medio: medio de comunicación, ya sea *Telegram* o *Twitter*.
+- Receptor: quienes reciben el mensaje (*Telegram*) o el dueño de la cuenta de *Twitter*.
+- Mensaje: el mensaje que se envia a los receptores.
+- fecha: fecha en la que fue emitido el mensaje.
+
+#### Colección *Traslados*
+
+En esta collección almacenaremos el *JSON* de los traslados de la siguiente forma:
+
+<pre class="prettyprint notranslate">
+{
+	fecha: new Date(2013,11,10,2,35),
+	idDonacion: 126,
+	sede_emisora: "Hospital de Heredia",
+	sede_receptora: "Hopital Nacional de Niños"
+}
+</pre>
+
+A continuación se muentran los datos y su respectiva información:
+
+- fecha: fecha del traslado de la sangre.
+- idDonacion: llave primaria en la tabla de *MySql donacion*, esto para no perder el dato.
+- sede_emisora: sede u hospital de la cual fue extraida la muestra de sangre.
+- sede_receptora: sede u hospital a la cual fue trasladada la muestra de sangre.
+
+**NOTA**: en *MongoDB* los id son autogenerables.
 
 ### Blockchain
 
