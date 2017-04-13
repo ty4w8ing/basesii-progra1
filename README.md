@@ -106,10 +106,12 @@ Se desglosan en el formato:
 Fecha – Cantidad Horas Invertidas - Tarea - Estudiante
 
 - `2 Abril - 1 hora - Creación del Git, inicio del README.md - Gustavo`. 
-- `11 Abril - 2 hora - Creación del diseño MySql - Gustavo`. 
+- `11 Abril - 2 hora - Creación del diseño MySql - Gustavo y Kenneth`. 
+- `11 Abril - 2 hora - Arquitectura - Gustavo y Kenneth`. 
 
 ## Comentarios finales (estado del programa)
 ## Conclusiones
 ## Bibliografía
 
 - Markdown Cheatsheet. (2016, Febrero 26). Obtenido de https://github.com/adam-p/markdown-here/wiki/Markdown-Cheatsheet .
+- Blockchain. By Anders Brownworth. Obtenido de https://anders.com/blockchain/ .
