@@ -120,17 +120,24 @@ A continuación se muentran los datos y su respectiva información:
 
 ### Blockchain
 
-Para la base de datos basada en *Blockchain* usaremos (). En sí, lo que se tiene pensado es en un bloque el cual tiene la información referente a un donador, toda esta información escrita en un formato *JSON* y en un segundo bloque de información, los datos del receptor. Estas asociadas con su respectivo *nonce* y su respectivo *hash*. Cada insert se vera de la siguiente manera: 
+Para la base de datos basada en *Blockchain* usaremos(por definir). En sí, lo que se tiene pensado es en un bloque el cual tiene la información referente a un donador, toda esta información escrita en un formato *JSON* y en un segundo bloque de información, los datos del receptor. Estas asociadas con su respectivo *nonce* y su respectivo *hash*. Cada insert se vera de la siguiente manera: 
 
 ![alt text](http://i.imgur.com/Gwu4czc.png "Diseño")
 
-
 ## Diseño de la arquitectura de software
 
-- Diagrama en que se representen los diferentes dispositivos de hardware, tecnologías de software, componentes de software de la implementación, su interconexión e interacción.
-- Podrá hacer una revisión preliminar de éste diagrama.
+El diseño de la arquitectura general contempla el uso de 3 bases de datos (*MySql, MongoDB, Blockchain(por definir)*), 2 lenguajes de programación (*Java, Python*). La siguiente imagen ejemplifica lo anterior:
 
-## Diagrama de clases
+![alt text](http://i.imgur.com/t87bqfp.png "Diseño")
 
-- Hacer el diagrama de clases, por capas o componentes de ser necesario utilizando el estándar de UML.
-- Puede hacer una revisión preliminar de éste diagrama.
+### Java APP
+
+Para la aplicación *Java*, tendremos un diseño de capas, en esta interactúa con una interfaz *html* usando la tecnología *RESTful* a travez de *JSON*. Intermedio tendremos una capa de lógica de la aplicación y más abajo una capa de acceso a datos usando *Hybernate* usando ya sea *DAOs* o el patrón de diseño *Repository*. Para toda esta parte posiblemente se usará de algún framework, seguramente *Spring* para sacar al máximo las ventajas del modelo *MVC*. La siguiente imagen ejemplifica lo anterior:
+
+![alt text](http://i.imgur.com/KoKXd6o.png "Diseño")
+
+### Python APP
+Para la aplicación *Python*, tendremos tambien un diseño de capas, pero esta vez los datos en vez de ser recibidos del usuario, serán recibidos de la base *MySql* y la aplicación actua como mediador entre estos datos y las APIs de *Twitter* y *Telegram* para luego ser almacenadas en las bases de datos *MongoDB* y *Blockchain*. La siguiente imagen ejemplifica lo anterior:
+
+![alt text](http://i.imgur.com/dEFLdo2.png "Diseño")
+
