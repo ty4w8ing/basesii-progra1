@@ -120,6 +120,11 @@ A continuación se muentran los datos y su respectiva información:
 
 ### Blockchain
 
+Para la base de datos basada en *Blockchain* usaremos (). En sí, lo que se tiene pensado es en un bloque el cual tiene la información referente a un donador, toda esta información escrita en un formato *JSON* y en un segundo bloque de información, los datos del receptor. Estas asociadas con su respectivo *nonce* y su respectivo *hash*. Cada insert se vera de la siguiente manera: 
+
+![alt text](http://i.imgur.com/Gwu4czc.png "Diseño")
+
+
 ## Diseño de la arquitectura de software
 
 - Diagrama en que se representen los diferentes dispositivos de hardware, tecnologías de software, componentes de software de la implementación, su interconexión e interacción.
