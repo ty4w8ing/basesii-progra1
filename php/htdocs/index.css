@@ -1,0 +1,141 @@
+body {
+	background: white;
+    font-family: sans-serif;
+}
+
+h1, h2, h5 {
+    color: black;
+    text-align: left;
+}
+
+
+p {
+    color:  black;
+    text-align: center;
+    font-size: 25px;
+}
+
+legend {
+    margin-top: 15px;
+}
+
+.oculta{
+	display: none;
+}
+
+.visible{
+	display: block;
+}
+
+.button {
+    background-color: E54545; /* Green */
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+}
+
+input[type=text] {
+    background-color: white;
+    background-position: 10px 10px; 
+    background-repeat: no-repeat;
+    border: none;
+	border-bottom: 2px solid red;
+    padding-left: 10px;
+    margin-top: 15px;
+}
+
+input[type=checkbox] {
+  margin-top: 15px;      
+}
+
+ol {
+    float: left;
+}
+ol li.titulo{
+    width: 100%;
+    float: left;
+}
+ol ul {
+    float: left;
+    padding: 20px;
+    width: 100%;
+}
+ol ul li {
+    float: left;
+    padding: 5px;
+    margin-left: 35px;
+    list-style-image: none;
+    list-style-type: none;
+}
+nav ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: E54545;
+}
+
+nav ul li {
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+nav ul a:hover:not(.active) {
+    background-color: 611D1D;
+}
+
+nav ul .active {
+	background-color: E54545;
+}
+
+fieldset {
+	border-style: none;
+}
+
+footer {
+    color:  black;
+    text-align: center;
+    font-size: 25px; 
+    padding: 15px;
+}
+
+header {
+    color: black;
+    padding: 15px;      
+}
+
+table {
+    border-collapse: collapse;
+    width: 50%;
+}
+
+th, td {
+    text-align: left;
+    padding: 8px;
+}
+
+tr:nth-child(even){}
+
+th {
+    background-color: E54545;
+    color: white;
+}
+
+main {
+    width: 100%;
+}
+
+label {
+	margin-top: 10px;
+}
