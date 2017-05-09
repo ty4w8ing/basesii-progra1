@@ -199,7 +199,7 @@ Para la implementación del *blockchain* se uso el *JSON* de la colección **db.
     { "O-" : 0, "O+" : 0, "B-" : 0, "A+" : 0, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 0, "id_hospital" : 1, "nombre" : "Hospital San Vicente de Paul" },
     { "O-" : 0, "O+" : 2, "B-" : 0, "A+" : 0, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 0, "id_hospital" : 2, "nombre" : "Hospital Mexico" }, 
     { "O-" : 0, "O+" : 1, "B-" : 0, "A+" : 1, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 0, "id_hospital" : 3, "nombre" : "Clinica Marcial Fallas" }, 
-    { "O-" : 0, "O+" : 0, "B-" : 0, "A+" : 1, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 1, "id_hospital" : 4, "nombre" : "Hospital San Rafael" } ]
+    { "O-" : 0, "O+" : 0, "B-" : 0, "A+" : 1, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 1, "id_hospital" : 4, "nombre" : "Hospital San Rafael" } ] }
 ```
 ### Python
 
@@ -207,7 +207,7 @@ Nuestro scrip de *Python* realiza las siguientes tareas:
 
 1. Generamos un scheduler para correr cada cierto tiempo el algoritmo.  
 2. Nos conectamos a la base de datos *Mysql*.
-3. De los datos extraidos, genero un *Json* para *db.stock* y el mensaje que postearemos en *Twitter*.
+3. De los datos extraídos, genero un *Json* para *db.stock* y el mensaje que posteamos en *Twitter*.
 4. Salvamos los datos en *MongoDB*.
 5. Posteamos el mensaje en *Twitter*.
 
@@ -229,6 +229,8 @@ Nuestro scrip de *Python* realiza las siguientes tareas:
   debido a su facil menu es muy intuitivo ya que en este podra visualizar los datos de la base y poder realizar consultas,
   insertar datos, eliminarlos,realizar, donaciones y transfuciones; simplemente presiona en el boton ubicado debajo de cada tabla  y rellena los datos.
   
+- Para Python solamente completamos los archivos de configuración y corremos el scrip.
+  
 ## Actividades realizadas por estudiante
 
 Se desglosan en el formato: 
@@ -239,7 +241,9 @@ Fecha – Cantidad Horas Invertidas - Tarea - Estudiante
 - `11 Abril - 2 horas - Creación del diseño MySql - Gustavo y Kenneth`. 
 - `11 Abril - 2 horas - Arquitectura - Gustavo y Kenneth`. 
 - `20 Abril - 4 horas - Creacion HTML - Kenneth`. 
+- `6 Mayo - 4 horas - Uso de la API de Twitter - Gustavo`. 
 - `7 Mayo - 8 horas - Remodelacion total de pagina web - Kenneth`. 
+- `7 Mayo - 6 horas - Modelado he implementación de MongoDB y scrips Python - Gustavo`. 
 - `8 Mayo - 8 horas - Implementacion de nuevos codigos php -  Kenneth`.
 - `9 Mayo - 5 horas - Update final de la pagina web - Gustavo y Kenneth`.
 - `9 Mayo - 2 horas - Update del README.md - Gustavo y Kenneth`. 
