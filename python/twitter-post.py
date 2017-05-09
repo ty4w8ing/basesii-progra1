@@ -164,7 +164,7 @@ def conectar_mongo(stock_t):
 	else:
 		anterior = str((blockchain.find_one({"hash": lastHash})).get("hash"))
 	#guardamos en mongo
-	jsonBC = { "stock" : str(stock.find_one({"_id": post_id})), "anterior" : anterior ,"hash" : str(hash_00), "nounce" : str(entero), "fecha" : datetime.datetime.utcnow()}
+	jsonBC = { "stock" : stock.find_one({"_id": post_id}), "anterior" : anterior ,"hash" : str(hash_00), "nounce" : str(entero), "fecha" : datetime.datetime.utcnow()}
 	bc_id = blockchain.insert_one(jsonBC).inserted_id
 	lastHash = str(hash_00)
 	escribir_file(lastHash)
