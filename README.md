@@ -230,6 +230,14 @@ Nuestro scrip de *Python* realiza las siguientes tareas:
   insertar datos, eliminarlos,realizar, donaciones y transfuciones; simplemente presiona en el boton ubicado debajo de cada tabla  y rellena los datos.
   
 - Para Python solamente completamos los archivos de configuración y corremos el scrip.
+
+`$ wget https://bootstrap.pypa.io/get-pip.py`
+`$ python get-pip.py`
+`$ wget https://pypi.python.org/packages/27/45/79618f80704497f74f2de1ca62216a5c3ffdbd49f43047c81c30e126a055/setuptools-35.0.2-py2.py3-none-any.whl#md5=54a3dac8fe9b912bb884a485d9a2e9cb`
+`$ pip setuptools-35.0.2-py2.py3-none-any.whl`
+`$ easy_install twitter`
+`$ python -m pip install pymongo`
+`$ apt-get install python-pip python-dev libmysqlclient-dev`
   
 ## Actividades realizadas por estudiante
 
