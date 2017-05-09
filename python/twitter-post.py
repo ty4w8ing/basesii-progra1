@@ -2,6 +2,9 @@
 
 #install pip / install https://pypi.python.org/pypi/setuptools setupuptools / install twitter
 # https://docs.python.org/2/howto/logging.html
+# chmod 755 xampp-linux-*-installer.run
+# sudo ./xampp-linux-*-installer.run
+# sudo apt-get install php5-mysqlnd
 #-----------------------------------------------------------------------
 # twitter-post-status
 #  - posts a status message to your timeline
@@ -13,7 +16,10 @@ import json
 import datetime
 import sched, time
 import MySQLdb
+import hashlib
 from pymongo import MongoClient
+
+
 
 s = sched.scheduler(time.time, time.sleep)
 
@@ -99,14 +105,14 @@ def do_scheduling(sc):
 		# genero los tweets
 		mensajes_a_enviar = generar_tweets(lista)
 		# guardo lo que voy a hacer en mongo
-		conectar_mongo(json_mensaje(mensajes_a_enviar), json_stock(lista))
+		conectar_mongo(json_stock(lista))
 		# posteo los mensajes individualmente
-		for mensaje in mensajes_a_enviar:
-			if mensaje != []:
-				postear(mensaje[0])
+		#for mensaje in mensajes_a_enviar:
+		#	if mensaje != []:
+		#		postear(mensaje[0])
 		print "Done ..."
 		# Genero el ciclo de scheduling
-		s.enter(15, 1, do_scheduling, (sc,))
+		s.enter(5, 1, do_scheduling, (sc,))
 	except Exception,e:
 		print str(e)
 
@@ -119,26 +125,63 @@ def json_stock(stock):
 	lista = []
 	for row in stock:
 		lista.append({ "id_hospital" : row[0], "nombre" : row[1], "AB+" : row[2], "AB-" : row[3], "A+" : row[4], "A-" : row[5], "B+" : row[6], "B-" : row[7], "O+" : row[8], "O-" : row[9]})
-	return { "fecha" : datetime.datetime.utcnow(), "stock" : lista}
+	return {"stock" : lista}
 
-## Funcion que conecta a mongo y guarda los json de mensaje y stock
-def conectar_mongo(mensaje_t, stock_t):
-	# me conecto a mongo
+## Funcion que conecta a mongo y guarda los json de mensaje y blockchain
+def conectar_mongo(stock_t):
+	# carga el last hash usado
+	config_hash = {}
+	execfile("lastHash.py", config_hash)
+	lastHash = config_hash["lastHash"]
+	# nos conectamos a mongo
 	client = MongoClient()
 	client = MongoClient('localhost', 27017)
 	client = MongoClient('mongodb://localhost:27017/')
-	# creo o uso la base de datos basesii (> use basesii)
+	# seteamos las base de datos y las colections
 	db = client.basesii
-	# creo o uso la coleccion de mensajes y stock. Esto gracias a que mongo crea esto de manera lazy
-	mensajes = db.mensajes
 	stock = db.stock
-	# inserto en la base
-	mensajes.insert_one(mensaje_t).inserted_id
-	stock.insert_one(stock_t).inserted_id
-	client.close()
+	blockchain = db.blockchain
+	# insertamos  los stocks 
+	post_id = stock.insert_one(stock_t).inserted_id
+	# creamos variables que usaremos despues
+	new_hash = ""
+	hash_00 = ""
+	entero = 1
+	flag = True
+	anterior = ""
+	while flag:
+		# buscamos el hash con iniciales 000**********
+		new_hash = hashlib.sha256(str(stock.find_one({"_id": post_id})).encode() + str(entero).encode())
+		valor_hex = str(new_hash.hexdigest())
+		if (valor_hex[0] == '0' and valor_hex[1] == '0' and valor_hex[2] == '0'):
+			hash_00 = valor_hex
+			flag = False
+		else:
+			entero += 1
+	# seteamos el anterior
+	if (lastHash == ""):
+		anterior = "0000000000000000000000000000000000000000000000000000000000000000"
+	else:
+		anterior = str((blockchain.find_one({"hash": lastHash})).get("hash"))
+	#guardamos en mongo
+	jsonBC = { "stock" : str(stock.find_one({"_id": post_id})), "anterior" : anterior ,"hash" : str(hash_00), "nounce" : str(entero), "fecha" : datetime.datetime.utcnow()}
+	bc_id = blockchain.insert_one(jsonBC).inserted_id
+	lastHash = str(hash_00)
+	escribir_file(lastHash)
+
+	
+
+# guarda el anterior para ser usando en otra corrida
+def escribir_file(text):
+	f = open('lastHash.py','r+')
+	f.seek(0)
+	f.write("lastHash = \""+text+"\"")
+	f.truncate()
+	f.close()
+
 
 if __name__ == '__main__':
-	s.enter(15, 1, do_scheduling, (s,))
+	s.enter(5, 1, do_scheduling, (s,))
 	s.run()
 	
 
