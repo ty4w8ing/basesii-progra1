@@ -91,11 +91,6 @@ Además de las definiciones anteriores tome en cuenta:
 - Las revisiones preliminares pueden ser por correo o presenciales.
 - Cualquier otra propuesta hecha por el estudiante debe de consultarla con el profesor.
 
-### Extras
-
-- Utilizar HyperLedger de blockchain.
-- Utilizar autenticación utilizando una base de datos jerárquica como LDAP.
-
 ## Ambiente de desarrollo
 
 - PHP para trabajar con la bases de datos
@@ -106,8 +101,115 @@ Además de las definiciones anteriores tome en cuenta:
 - AJAX medio de comunicacion entre los inputs de html y los datos de php
 - Xampp herramienta utilizada para levantar un apache
 - Apache Herramienta con la cual sirve el localhost
+- Python para GNU/Linux
+- PIP para Python
 
 ## Estructuras de datos usadas y funciones
+
+### Diseño de la Base de Datos
+
+#### MySql
+
+Debido a sus características relacionales, la base de datos MySql es ideal para la solución de este problema. La base de datos está construida de la siguiente manera:
+
+##### Tabla *persona*
+
+En esta tabla aparecen los datos principales de las personas añadidas a la base de datos. Entre estos datos se encuentran: 
+
+- Nombre.
+- Apellidos.
+- Cédula.
+- Tipo de sangre (A, B, AB, O).
+- Rh de la sangre (positivo o negativo).
+- Usuario de *Telegram*.
+- Fecha de la última donación.
+
+##### Tabla *sedeBanco*
+
+En esta tabla se encuentran solamente las sedes del banco de sangre. Entre los datos de esta se encuentran:
+
+- Nombre de la sede u hospital sede.
+- Ubicación geográfica de la misma.
+
+##### Tabla *donacion*
+
+En esta tabla se encuentran los datos de una donación de una persona, efectuada en cierta sede u hospital, aca se encuentran llaves foráneas a otras tablas. Entre los datos de esta tabla se encuentran: 
+
+- Llave foránea a la persona donadora.
+- Llave foránea a la sede receptora y almacenadora de dicha donación.
+- Fecha de donación.
+- Bandera la cual me dice si dicha sangre aún se encuentra en stock o si ya fue sujeto de una transfusión. 
+
+En tabla existe un trigger que después de insertar en esta tabla modifica la fecha de la última donación de la persona asociada (*idPersona*) en la tabla de *persona.*
+
+##### Tabla *listaEspera*
+
+En esta tabla se encuentran los datos de una persona que se encuentra esperando para recibir una tranfución de sangre en cierto banco de sangre u hospital, aca se encuentran llaves foráneas a otras tablas. Entre los datos de esta tabla se encuentran: 
+
+- Llave foránea a la persona receptora.
+- Llave foránea a la sede encargada de administrar dicha transfusión.
+- Fecha de inscripción en lista de espera. 
+
+##### Tabla *transfucion*
+
+En esta tabla se encuentran los datos de una transfusión de sangre, efectuada en cierta sede u hospital, aca se encuentran llaves foráneas a otras tablas. Entre los datos de esta tabla se encuentran: 
+
+- Identificador de la donación y sus datos.
+- Identificador de la lista de espera y sus datos.
+- Fecha de la transfusión.
+
+En tabla existe un trigger que después de insertar en esta tabla modifica el estado de *enStock* de la tabla *donación*, marcando así como que la sangre ya no se encuentra disponible. Y también modifica el *esperando* de la tabla *listaEspera* marcando asi que esa persona no necesita mas de la transfusión. 
+
+**NOTA:** Todas las tablas tienen sus llaves primarias identificadoras, las cuales son únicas y  autoincrementables. 
+
+
+##### Imagen del diseño de la base de datos
+
+![alt text](http://i.imgur.com/Qd4JRMO.png "Diseño")
+
+#### MongoDB
+
+Para *MongoDB* usamos una database generado desde *Python* llamada **basesii**, y en esta se crean 2 colecciones:
+
+##### db.stock
+
+En esta colección guardamos un estado actual de todas las sedes y la cantidad de sangre de cada tipo encontradas en ellas. Acá les queda un ejemplo del *JSON*:
+
+```javascrip
+{
+ u'_id': ObjectId('59121d084257911be187679f'),
+ u'stock': [
+            {u'O-': 0, u'O+': 0, u'B-': 0, u'A+': 0, u'AB+': 0, u'A-': 0, u'AB-': 0, u'B+': 0, u'id_hospital': 1, u'nombre': u'Hospital San Vicente de Paul'},
+            {u'O-': 0, u'O+': 2, u'B-': 0, u'A+': 0, u'AB+': 0, u'A-': 0, u'AB-': 0, u'B+': 0, u'id_hospital': 2, u'nombre': u'Hospital Mexico'},
+            {u'O-': 0, u'O+': 1, u'B-': 0, u'A+': 1, u'AB+': 0, u'A-': 0, u'AB-': 0, u'B+': 0, u'id_hospital': 3, u'nombre': u'Clinica Marcial Fallas'}, 
+            {u'O-': 0, u'O+': 0, u'B-': 0, u'A+': 1, u'AB+': 0, u'A-': 0, u'AB-': 0, u'B+': 1, u'id_hospital': 4, u'nombre': u'Hospital San Rafael'}]
+}
+```
+##### db.blockchain
+
+Para la implementación del *blockchain* se uso el *JSON* de la colección **db.stock**. Este se transformó un string el cual se le aplicó un algoritmo de hash y se usó un nounce para que iniciara en *000*. Luego se almacena el hash, el hash del elemento anterior, la fecha con su timestamp actual y el elemento *JSON* del stock. Acá les queda un ejemplo del *JSON*:
+
+```javascrip
+{ 
+  "_id" : ObjectId("59121cf74257911bc78b07d6"), 
+  "anterior" : "000d3edbaeaec1e0e4529c3704fa95f3222e1021f3684671cbfff7dd041ffb60", 
+  "hash" : "00043567d97e08232d3ad91f955e4b4ad52774ed9cc44d681b7e6b49a88c28e8", 
+  "nounce" : "97", "fecha" : ISODate("2017-05-09T19:48:07.796Z"), 
+  "stock" = [ 
+    { "O-" : 0, "O+" : 0, "B-" : 0, "A+" : 0, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 0, "id_hospital" : 1, "nombre" : "Hospital San Vicente de Paul" },
+    { "O-" : 0, "O+" : 2, "B-" : 0, "A+" : 0, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 0, "id_hospital" : 2, "nombre" : "Hospital Mexico" }, 
+    { "O-" : 0, "O+" : 1, "B-" : 0, "A+" : 1, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 0, "id_hospital" : 3, "nombre" : "Clinica Marcial Fallas" }, 
+    { "O-" : 0, "O+" : 0, "B-" : 0, "A+" : 1, "AB+" : 0, "A-" : 0, "AB-" : 0, "B+" : 1, "id_hospital" : 4, "nombre" : "Hospital San Rafael" } ] }
+```
+### Python
+
+Nuestro scrip de *Python* realiza las siguientes tareas:
+
+1. Generamos un scheduler para correr cada cierto tiempo el algoritmo.  
+2. Nos conectamos a la base de datos *Mysql*.
+3. De los datos extraídos, genero un *Json* para *db.stock* y el mensaje que posteamos en *Twitter*.
+4. Salvamos los datos en *MongoDB*.
+5. Posteamos el mensaje en *Twitter*.
 
 
 
@@ -125,8 +227,10 @@ Además de las definiciones anteriores tome en cuenta:
   
 - Luego basta con escribir en su navegador localhost/usuariolocal.php para ingresar al sitio principal desde el cual
   debido a su facil menu es muy intuitivo ya que en este podra visualizar los datos de la base y poder realizar consultas,
-  insertar datos, eliminarlos,realizar, donaciones y transfuciones; simplemente presiona en el boton ubicado debajo de cada tabla 
-  y rellena los datos.
+  insertar datos, eliminarlos,realizar, donaciones y transfuciones; simplemente presiona en el boton ubicado debajo de cada tabla  y rellena los datos.
+  
+- Para Python solamente completamos los archivos de configuración y corremos el scrip.
+  
 ## Actividades realizadas por estudiante
 
 Se desglosan en el formato: 
@@ -137,7 +241,9 @@ Fecha – Cantidad Horas Invertidas - Tarea - Estudiante
 - `11 Abril - 2 horas - Creación del diseño MySql - Gustavo y Kenneth`. 
 - `11 Abril - 2 horas - Arquitectura - Gustavo y Kenneth`. 
 - `20 Abril - 4 horas - Creacion HTML - Kenneth`. 
+- `6 Mayo - 4 horas - Uso de la API de Twitter - Gustavo`. 
 - `7 Mayo - 8 horas - Remodelacion total de pagina web - Kenneth`. 
+- `7 Mayo - 6 horas - Modelado he implementación de MongoDB y scrips Python - Gustavo`. 
 - `8 Mayo - 8 horas - Implementacion de nuevos codigos php -  Kenneth`.
 - `9 Mayo - 5 horas - Update final de la pagina web - Gustavo y Kenneth`.
 - `9 Mayo - 2 horas - Update del README.md - Gustavo y Kenneth`. 
