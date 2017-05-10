@@ -233,7 +233,7 @@
 
 			<?php  	
 				
-				$sql = "select * FROM sedebanco";
+				$sql = "select * FROM sedeBanco";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
 					echo "<table><tr><th>ID</th><th>Nombre</th>
@@ -272,7 +272,7 @@
 
 			<?php  	
 				
-				$sql = "select * FROM Persona";
+				$sql = "select * FROM persona";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
 					echo "<table><tr><th>ID</th><th>nombre</th>
@@ -375,7 +375,7 @@
 
 			<?php  	
 				
-				$sql = "SELECT donacion.idDonacion, sedebanco.nombre as sedenombre, donacion.fecha, persona.nombre, persona.apellidos, persona.tipo, persona.rh FROM donacion, persona, sedebanco WHERE persona.idPersona = donacion.idPersona AND donacion.enStock = '1' AND sedebanco.idSedeBanco = donacion.idSedeBanco ORDER BY sedebanco.nombre, persona.tipo;";
+				$sql = "SELECT donacion.idDonacion, sedeBanco.nombre as sedenombre, donacion.fecha, persona.nombre, persona.apellidos, persona.tipo, persona.rh FROM donacion, persona, sedebanco WHERE persona.idPersona = donacion.idPersona AND donacion.enStock = '1' AND sedeBanco.idSedeBanco = donacion.idSedeBanco ORDER BY sedeBanco.nombre, persona.tipo;";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
 					echo "<table><tr><th>ID</th><th>sedeBanco</th>
@@ -396,7 +396,7 @@
 
 			<?php  	
 				
-				$sql = "SELECT listaespera.idListaEspera, sedebanco.nombre as sedenombre, listaespera.fecha, persona.nombre, persona.apellidos, persona.tipo, persona.rh FROM listaespera, persona, sedebanco WHERE persona.idPersona = listaespera.idPersona AND sedebanco.idSedeBanco = listaespera.idSedeBanco AND listaespera.esperando = '1' ORDER BY sedebanco.nombre, persona.tipo;";
+				$sql = "SELECT listaEspera.idListaEspera, sedeBanco.nombre as sedenombre, listaEspera.fecha, persona.nombre, persona.apellidos, persona.tipo, persona.rh FROM listaespera, persona, sedebanco WHERE persona.idPersona = listaEspera.idPersona AND sedeBanco.idSedeBanco = listaEspera.idSedeBanco AND listaEspera.esperando = '1' ORDER BY sedeBanco.nombre, persona.tipo;";
 				$result = $conn->query($sql);
 				if ($result->num_rows > 0) {
 					echo "<table><tr><th>ID</th><th>sedeBanco</th>
